@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
 
-    var imageList = ArrayList<Uri>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -39,17 +37,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setData(data: Intent?) {
-        for (i in 0..data?.clipData?.itemCount!!) {
-            data?.clipData?.getItemAt(0)?.uri?.let { imageList.add(it) }
+        var imageList = ArrayList<Uri>()
+
+        for (i in 0..data?.clipData?.itemCount!! -1) {
+            data?.clipData?.getItemAt(i)?.uri?.let { imageList.add(it) }
         }
-        if(imageList.size == 0) {
-            setRV()
+        if (findViewById<RecyclerView>(R.id.rv_images).adapter == null) {
+            setRV(imageList)
+        } else {
+            (findViewById<RecyclerView>(R.id.rv_images).adapter as ImageAdaptor).addItem(imageList)
         }
+
+
     }
 
-    private fun setRV() {
+    private fun setRV(imageList: ArrayList<Uri>) {
         var rv = findViewById<RecyclerView>(R.id.rv_images)
-        rv.adapter = ImageAdaptor(this,imageList)
+        rv.adapter = ImageAdaptor(this, imageList)
         rv.layoutManager = GridLayoutManager(this, 3)
     }
+
+
 }
