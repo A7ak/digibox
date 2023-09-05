@@ -28,6 +28,7 @@ class ImageAdaptor(val context: Context, var imageList: ArrayList<Uri>) : Recycl
 
      class ImageViewHolder(view: View) : RecyclerView.ViewHolder (view){
          val iv : ImageView = view.findViewById(R.id.image_item)
+
      }
 
     fun addItem(list : ArrayList<Uri>){
